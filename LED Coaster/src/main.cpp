@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-#define LED_PIN 5   // Pin connected to the LED
-#define NUM_LEDS 1  // Number of LEDs
+#define LED_PIN 9   // Pin connected to the LED
+#define NUM_LEDS 10  // Number of LEDs
 
 CRGB leds[NUM_LEDS]; // LED array
 
@@ -10,80 +10,78 @@ CRGB leds[NUM_LEDS]; // LED array
 const char* modes[] = {"Static", "Breathing", "Chaser", "Rainbow"};
 const int numModes = sizeof(modes) / sizeof(modes[0]);
 
-modes = 
+// Function prototypes
+void changeLEDMode(String mode, CRGB color);
+void staticMode(CRGB color);
+void breathingMode(CRGB color);
+void chaserMode(CRGB color);
+void rainbowMode();
 
 void setup() {
+  Serial.begin(9600); // Initialize Serial communication
   FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
 }
 
 void loop() {
   // Example usage:
-  // changeLEDMode("Static", {CRGB::Red}); // Set the mode to Static with Red color
-  // changeLEDMode("Breathing", {CRGB::Blue}); // Set the mode to Breathing with Blue color
-  // changeLEDMode("Chaser", {CRGB::Green}); // Set the mode to Chaser with Green color
-  // changeLEDMode("Rainbow", {}); // Set the mode to Rainbow
+  // changeLEDMode("Static", CRGB::Red); // Set the mode to Static with Red color
+  // changeLEDMode("Breathing", CRGB::Blue); // Set the mode to Breathing with Blue color
+  // changeLEDMode("Chaser", CRGB::Green); // Set the mode to Chaser with Green color
+  // changeLEDMode("Rainbow", CRGB::Black); // Set the mode to Rainbow (color is not used)
   
-  // Input that could come from a bluetooth or wifi module
+  // Input that could come from a Bluetooth or WiFi module
   String mode = "Static"; 
-  CRGB colorList[] = {CRGB::Red}; 
+  CRGB color = CRGB::Red; 
   
-  try {
-    changeLEDMode(mode, colorList); 
-  } catch (const char* error) {
-    Serial.println(error);
-  }
+  changeLEDMode(mode, color); 
+  delay(1000); // Delay to simulate some time between mode changes
 }
 
-
-
-void changeLEDMode(String mode, std::initializer_list<CRGB> colors) {
+void changeLEDMode(String mode, CRGB color) {
   if (mode == "Static") {
-    staticMode(colors);
+    staticMode(color);
   } else if (mode == "Breathing") {
-    breathingMode(colors);
+    breathingMode(color);
   } else if (mode == "Chaser") {
-    chaserMode(colors);
+    chaserMode(color);
   } else if (mode == "Rainbow") {
     rainbowMode();
+  } else {
+    //throw "Invalid mode";
   }
 }
 
-void staticMode(std::initializer_list<CRGB> colors) {
+void staticMode(CRGB color) {
   // Static mode: Set all LEDs to the same color
-  if (colors.size() > 0) {
-    fill_solid(leds, NUM_LEDS, *(colors.begin())); 
+  fill_solid(leds, NUM_LEDS, color); 
+  FastLED.show();
+}
+
+void breathingMode(CRGB color) {
+  // Breathing mode implementation
+  // Gradually change brightness of the color
+  for (int i = 0; i < 255; i++) {
+    leds[0] = color;
+    leds[0].fadeLightBy(255 - i);
     FastLED.show();
+    delay(10);
+  }
+  for (int i = 255; i > 0; i--) {
+    leds[0] = color;
+    leds[0].fadeLightBy(255 - i);
+    FastLED.show();
+    delay(10);
   }
 }
 
-void breathingMode(std::initializer_list<CRGB> colors, int numColors) {
-  // Breathing mode implementation
-  // Gradually change brightness between two colors
-  if (numColors == 2) {
-    for (int i = 0; i < 255; i++) {
-      leds[0] = colors[0];
-      leds[0].fadeLightBy(i);
-      FastLED.show();
-      delay(10);
-    }
-    for (int i = 255; i > 0; i--) {
-      leds[0] = colors[1];
-      leds[0].fadeLightBy(i);
-      FastLED.show();
-      delay(10);
-    }
-  }
-}
-void chaserMode(std::initializer_list<CRGB> colors) {
+void chaserMode(CRGB color) {
   // Chaser mode: LEDs chase each other with a specified color
-  if (colors.size() > 0) {
-    CRGB color = *(colors.begin());
-    for (int i = 0; i < NUM_LEDS; i++) {
-      leds[i] = color;
-      FastLED.show();
-      delay(100);
-      leds[i] = CRGB::Black;
-    }
+  for (int i = 0; i < NUM_LEDS; i++) {
+    leds[i] = color;
+    FastLED.show();
+    delay(100);
+    leds[i] = CRGB::Black;
+    FastLED.show();
   }
 }
 
