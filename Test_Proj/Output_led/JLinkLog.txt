@@ -1,0 +1,42 @@
+T563C 000:226.232   SEGGER J-Link V7.92k Log File
+T563C 000:226.529   DLL Compiled: Oct 18 2023 14:58:31
+T563C 000:226.538   Logging started @ 2024-06-03 15:16
+T563C 000:226.546   Process: C:\Keil_v5\UV4\UV4.exe
+T563C 000:226.557 - 226.554ms
+T563C 000:226.577 JLINK_SetWarnOutHandler(...)
+T563C 000:226.587 - 0.011ms
+T563C 000:226.595 JLINK_OpenEx(...)
+T563C 034:786.289   
+  ***** Warning: 
+T563C 034:786.392   Out of sync , resynchronizing...
+T563C 034:786.575   
+  ***** Warning: 
+T563C 034:786.623   Out of sync , resynchronizing...
+T563C 034:786.771   
+  ***** Warning: 
+T563C 034:786.819   Out of sync , resynchronizing...
+T563C 034:786.875   
+  ***** Error: 
+T563C 034:786.907   Cannot connect to J-Link
+T563C 034:787.419 - 34560.818ms returns "Cannot connect to J-Link"
+T563C 034:788.013 
+  ***** Warning: 
+T563C 034:788.036 API Error: API JLINK_GetHardwareVersion function called before JLINKARM_Open()
+T563C 034:788.055 JLINK_GetHardwareVersion()
+T563C 034:788.799   
+  ***** Warning: 
+T563C 034:788.867   Out of sync , resynchronizing...
+T563C 034:788.963   
+  ***** Warning: 
+T563C 034:789.001   Out of sync , resynchronizing...
+T563C 034:789.123   
+  ***** Warning: 
+T563C 034:789.161   Out of sync , resynchronizing...
+T563C 034:789.206   
+  ***** Error: 
+T563C 034:789.228   Cannot connect to J-Link
+T563C 034:789.606 - 1.550ms
+T563C 296:186.834 JLINK_Close()
+T563C 296:194.237 - 7.401ms
+T563C 296:194.313   
+T563C 296:194.333   Closed
